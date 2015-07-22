@@ -1,4 +1,4 @@
-# grunt-teamcity
+# grunt-teamcity-blocks
 > Runs Grunt tasks and reports each result inside a TeamCity block  
 > See [TeamCity Script Interaction](https://confluence.jetbrains.com/display/TCD8/Build+Script+Interaction+with+TeamCity) for more info.
 
