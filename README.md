@@ -1,4 +1,4 @@
-# grunt-teamcity-blocks
+# grunt-teamcity-blocks [![Build Status](https://travis-ci.org/tolu/grunt-teamcity-blocks.svg?branch=master)](https://travis-ci.org/tolu/grunt-teamcity-blocks)
 > Runs Grunt tasks and reports each result inside a TeamCity block  
 > See [TeamCity Script Interaction](https://confluence.jetbrains.com/display/TCD8/Build+Script+Interaction+with+TeamCity) for more info.
 
