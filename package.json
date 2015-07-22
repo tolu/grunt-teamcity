@@ -1,0 +1,35 @@
+{
+  "name": "grunt-teamcity-blocks",
+  "description": "Run tasks and report result in teamcity blocks",
+  "version": "0.1.0",
+  "author": {
+    "name": "Tobias Lundin",
+    "url": "https://github.com/tolu"
+  },
+  "repository": "tolu/grunt-teamcity-blocks",
+  "license": "ISC",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test --force"
+  },
+  "dependencies": { },
+  "devDependencies": {
+    "grunt": "^0.4.0",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-nodeunit": "^0.4.1"
+  },
+  "peerDependencies": {
+    "grunt": ">=0.4.0"
+  },
+  "keywords": [
+    "gruntplugin",
+    "teamcity"
+  ],
+  "files": [
+    "tasks",
+    "LICENSE"
+  ]
+}
