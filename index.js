@@ -10,17 +10,14 @@
 
 module.exports = function(grunt){
 	
-	grunt.registerMultiTask('teamcity', 'Adds TeamCity blocks around each task', function () {
+	grunt.registerMultiTask('teamcity', 'Adds TeamCity blocks around each provided tasks result', function () {
 		var opts = this.options({
-			blockNamePrefix:'',
-			teamCityBlockOpen: '##teamcity[blockOpened name="',
-			teamCityBlockClose: '##teamcity[blockClosed name="'
+			blockNamePrefix:''
 		});
 		var cb = this.async();
 		var tasks = this.data.tasks || this.data;
 		var flags = grunt.option.flags();
 
-		grunt.verbose.writeln(JSON.stringify(opts));
 		grunt.verbose.writeflags(tasks);
 		grunt.verbose.writeflags(flags);
 
@@ -36,9 +33,9 @@ module.exports = function(grunt){
 				}
 			}, function done(err, result) {
 				taskCounter--;
-				grunt.log.writeln(opts.teamCityBlockOpen + opts.blockNamePrefix + task + '"]');
+				grunt.log.writeln('##teamcity[blockOpened name="' + opts.blockNamePrefix + task + '"]');
 				grunt.log.writeln(result);
-				grunt.log.writeln(opts.teamCityBlockClose + opts.blockNamePrefix + task + '"]');
+				grunt.log.writeln('##teamcity[blockClosed name="' + opts.blockNamePrefix + task + '"]');
 				if (taskCounter === 0) {
 					cb();
 				}
