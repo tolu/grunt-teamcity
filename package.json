@@ -1,7 +1,7 @@
 {
   "name": "grunt-teamcity-blocks",
   "description": "Run tasks and report result in teamcity blocks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Tobias Lundin",
     "url": "https://github.com/tolu"
