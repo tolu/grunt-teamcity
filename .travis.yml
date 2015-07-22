@@ -1,6 +1,14 @@
 sudo: false
 language: node_js
 node_js:
-  - 'iojs'
-  - '0.12'
-  - '0.10'
+- iojs
+- '0.12'
+- '0.10'
+deploy:
+  provider: npm
+  email: tobias.lundin@gmail.com
+  api_key:
+    secure: gGqmEytKC2Cx3M1ex2ejItgCr9nb+EJ/sR3wFzrT4mS/G1CF7Ymb7OrIj2Qv2vll4g3Uv9Z398BSSp/BwdEQ8IJTBOP8WZCqEtM2VguaanNC5X+8FTveXnO59ztb1v0AxYqoC2jkqnfzEl+gzO0xXigRj5OeDEOSKB04vvbECnKYF96SqiXmXZIo4MddbK+3iobNks3j5Dr7td8v5dhZXb5BdvjXiNMth02RongFySqqSjlxQpHDu2wEZmLSfvvOvn6F96nner1r1+VczPYgTFxsUUaolXiQMlJTiS44kxr4sBubAJ0favU3OdPWrqZ2DKC5CNFAnKVMGPZld+eXCQzKzUw3IcJKOMw8H/EKoYNW5+o6o59EOQhW5jqRCm1MjdAlwgAcUwWjpRxKHmBm1Uy4gTPyS8ii+UABG36eIep854SmHA5mFW9X1Fmi1ZuJTWmCnKrV/MGRHInjPEbaCfVUWYtoSiOQs603knD7Z/vYAbuo2SMII5HQWHXfM6TBzf/oF4iDMbcMzv/TnkgnfuoLZ7/molMlrKoonKHSP9hadkGUefgjR9pH+rvbUy7MrJQ/hDeuyClopW6d1EbMPKaDzKZhAocJomxi2PZJ8xV/R9WNDJ9+ERYCg87UvXJ1RGolHylA8cot3ei9wOa4Qpu76Dcf40T4Xrs0EpOUJ2A=
+  on:
+    tags: true
+    repo: tolu/grunt-teamcity-blocks
