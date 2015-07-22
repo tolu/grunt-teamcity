@@ -32,9 +32,9 @@ module.exports = function(grunt){
 				}
 			}, function done(err, result) {
 				taskCounter--;
-				grunt.log.writeln('##teamcity[blockOpened name="' + opts.blockNamePrefix + task + '"]');
+				grunt.log.writeln("##teamcity[blockOpened name='" + opts.blockNamePrefix + task + "']");
 				grunt.log.writeln(result);
-				grunt.log.writeln('##teamcity[blockClosed name="' + opts.blockNamePrefix + task + '"]');
+				grunt.log.writeln("##teamcity[blockClosed name='" + opts.blockNamePrefix + task + "']");
 				if (taskCounter === 0) {
 					cb();
 				}
