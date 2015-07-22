@@ -24,7 +24,6 @@ module.exports = function(grunt){
 		var taskCounter = tasks.length;
 
 		tasks.forEach(function (task) {
-			grunt.verbose.oklns('Spawn task: ' + task);
 			grunt.util.spawn({
 				grunt: true,
 				args: [task].concat(flags),

@@ -6,7 +6,10 @@
     "name": "Tobias Lundin",
     "url": "https://github.com/tolu"
   },
-  "repository": "tolu/grunt-teamcity-blocks",
+  "repository": {
+    "type":"git",
+    "url": "https://github.com/tolu/grunt-teamcity-blocks.git"
+  },
   "license": "ISC",
   "engines": {
     "node": ">=0.10.0"
@@ -17,7 +20,6 @@
   "dependencies": { },
   "devDependencies": {
     "grunt": "^0.4.0",
-    "grunt-cli": "^0.1.13",
     "grunt-contrib-jshint": "^0.11.0",
     "grunt-contrib-nodeunit": "^0.4.1"
   },

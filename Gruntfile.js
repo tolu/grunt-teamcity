@@ -16,18 +16,41 @@ module.exports = function(grunt) {
 
     // Configuration to be run
     teamcity: {
-      options: {},
-      tasks: ['myTask', 'myAsyncTask', 'finalTask']
+      myTask: {
+        tasks: ['myTask']
+      },
+      multiTask: {
+        tasks: ['myTask', 'myAsyncTask', 'myFinalTask']
+      },
+      withOpts : {
+        options: { blockNamePrefix: 'myPreFixTo ' },
+        tasks: ['myTask']
+      }
     },
 
     // Unit tests.
     nodeunit: {
-      tests: ['test/*_test.js']
+      tests: ['test/*_tests.js']
     }
   });
-
+  
+  // register some test tasks
+  grunt.registerTask('myTask', function(){
+    grunt.log.writeln('this is my task');
+  });
+  grunt.registerTask('myAsyncTask', function(){
+    var done = this.async();
+    setTimeout(function(){
+      grunt.log.writeln('this is my task');
+      done();
+    }, 150);
+  });
+  grunt.registerTask('myFinalTask', function(){
+    grunt.log.oklns('this is my final task');
+  });
+  
   // Actually load this plugin's task(s).
-  grunt.loadTasks('./index.js');
+  grunt.loadTasks('tasks');
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
