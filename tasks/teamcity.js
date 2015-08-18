@@ -12,7 +12,8 @@ module.exports = function(grunt){
 	
 	grunt.registerMultiTask('teamcity', 'Adds TeamCity blocks around each provided tasks result', function () {
 		var opts = this.options({
-			blockNamePrefix:''
+			blockNamePrefix:'',
+			runAsync: true
 		});
 		var cb = this.async();
 		var tasks = this.data.tasks || this.data;
@@ -22,24 +23,38 @@ module.exports = function(grunt){
 		grunt.verbose.writeflags(flags);
 
 		var taskCounter = tasks.length;
-
-		tasks.forEach(function (task) {
+		if(opts.runAsync){
+			tasks.forEach(spawnTask);
+		} else {
+			spawnTask(tasks);
+		}
+		
+		function spawnTask(task) {
+			var taskName = task;
+			if(!opts.runAsync){
+				taskName = task.shift();
+			}
 			grunt.util.spawn({
 				grunt: true,
-				args: [task].concat(flags),
+				args: [taskName].concat(flags),
 				opts: {
 					stdio: ['ignore', 'pipe', 'pipe']
 				}
 			}, function done(err, result) {
 				taskCounter--;
-				grunt.log.writeln("##teamcity[blockOpened name='" + opts.blockNamePrefix + task + "']");
+				grunt.log.writeln("##teamcity[blockOpened name='" + opts.blockNamePrefix + taskName + "']");
 				grunt.log.writeln(result);
-				grunt.log.writeln("##teamcity[blockClosed name='" + opts.blockNamePrefix + task + "']");
+				grunt.log.writeln("##teamcity[blockClosed name='" + opts.blockNamePrefix + taskName + "']");
+				// no more tasks = done
 				if (taskCounter === 0) {
 					cb();
 				}
+				// run sync and still more tasks, call next
+				else if(!opts.runAsync){
+					spawnTask(task);
+				}
 			});
-		});
+		}
 	});
 	
 };

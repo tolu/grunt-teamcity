@@ -40,3 +40,10 @@ Type: `String`
 Default: ``
 
 A prefix added to the name of the opening and closing teamcity block
+
+#### runAsync
+
+Type: `Boolean`
+Default: `true`
+
+Set to false to have task-order respected

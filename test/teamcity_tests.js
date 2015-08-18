@@ -41,5 +41,16 @@ exports.teamcity = {
       
       test.done();
 		});
+  },
+  runSyncOutputsTasksInOrder: function(test){
+    test.expect(1);
+    exec('grunt teamcity:runSync --no-color', function (err, result) {
+      var asyncTaskIdx = result.indexOf("blockOpened name='myAsyncTask'");
+      var myTaskIdx = result.indexOf("blockOpened name='myTask'");
+      
+      test.ok(myTaskIdx > asyncTaskIdx, 'respects task order when running sync');
+      
+      test.done();
+		});
   }
 };

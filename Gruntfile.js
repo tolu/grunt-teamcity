@@ -25,6 +25,10 @@ module.exports = function(grunt) {
       withOpts : {
         options: { blockNamePrefix: 'myPreFixTo ' },
         tasks: ['myTask']
+      },
+      runSync:{
+        options: { runAsync: false },
+        tasks: ['myAsyncTask', 'myTask']
       }
     },
 
