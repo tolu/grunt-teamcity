@@ -29,6 +29,10 @@ module.exports = function(grunt) {
       runSync:{
         options: { runAsync: false },
         tasks: ['myAsyncTask', 'myTask']
+      },
+      runAsyncFail:{
+        options: { runAsync: true },
+        tasks: ['myFailingAsyncTask', 'myAsyncTask']
       }
     },
 
@@ -48,6 +52,13 @@ module.exports = function(grunt) {
       grunt.log.writeln('this is my task');
       done();
     }, 150);
+  });
+  grunt.registerTask('myFailingAsyncTask', function(){
+    var done = this.async();
+    setTimeout(function(){
+      grunt.log.writeln('this is my task');
+      done(new Error('myFailingAsyncTask failed!'));
+    }, 100);
   });
   grunt.registerTask('myFinalTask', function(){
     grunt.log.oklns('this is my final task');

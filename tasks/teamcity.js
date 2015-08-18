@@ -15,10 +15,12 @@ module.exports = function(grunt){
 			blockNamePrefix:'',
 			runAsync: true
 		});
-		var cb = this.async();
+		
+		var spawnedTasks = [];
+		var done = this.async();
 		var tasks = this.data.tasks || this.data;
-		var flags = grunt.option.flags();
-
+		var flags = getFlags();
+		
 		grunt.verbose.writeflags(tasks);
 		grunt.verbose.writeflags(flags);
 
@@ -34,7 +36,7 @@ module.exports = function(grunt){
 			if(!opts.runAsync){
 				taskName = task.shift();
 			}
-			grunt.util.spawn({
+			spawnedTasks.push(grunt.util.spawn({
 				grunt: true,
 				args: [taskName].concat(flags),
 				opts: {
@@ -42,19 +44,56 @@ module.exports = function(grunt){
 				}
 			}, function done(err, result) {
 				taskCounter--;
-				grunt.log.writeln("##teamcity[blockOpened name='" + opts.blockNamePrefix + taskName + "']");
-				grunt.log.writeln(result);
-				grunt.log.writeln("##teamcity[blockClosed name='" + opts.blockNamePrefix + taskName + "']");
-				// no more tasks = done
-				if (taskCounter === 0) {
-					cb();
+				reportTaskResult({result:result, prefix:opts.blockNamePrefix, name: taskName});
+				checkResult(result, taskName, flags); 
+				
+				// Failed or no more tasks = done
+				if (result.failed || taskCounter === 0) {
+					exit(result.error);
 				}
 				// run sync and still more tasks, call next
 				else if(!opts.runAsync){
 					spawnTask(task);
 				}
+			}));
+		}
+		
+		function exit(error){
+			// abort all tasks in list
+			spawnedTasks.filter(function(task){
+				return !task.killed;
+			}).forEach(function(task){
+				task.kill();
 			});
+			
+			// call async callback
+			done(error);
 		}
 	});
 	
+	function checkResult(result, name, flags) {
+		if(!/Done, without errors/.test(result) && !flags.force){
+			result.failed = true;
+			result.error = new Error('teamcity-task failed when running ' + name);
+		}
+	}
+	
+	function reportTaskResult(taskResult){
+		grunt.log.writeln("##teamcity[blockOpened name='" + taskResult.prefix + taskResult.name + "']");
+		grunt.log.writeln(taskResult.result);
+		grunt.log.writeln("##teamcity[blockClosed name='" + taskResult.prefix + taskResult.name + "']");
+	}
+	
+	function getFlags(){
+		// get flag array, set force at param of object
+		// as sending it down the line prevents some tasks from finishing
+		var flags = grunt.option.flags();
+		flags.force = false;
+		var forceFlagIdx = flags.indexOf('--force');
+		if(forceFlagIdx >= 0){
+			flags.force = true;
+			flags.splice(forceFlagIdx, 1);
+		}
+		return flags;
+	}
 };

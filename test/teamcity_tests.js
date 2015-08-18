@@ -52,5 +52,31 @@ exports.teamcity = {
       
       test.done();
 		});
+  },
+  runAsyncFail_ExitsAndStopsOtherTasks: function(test){
+    test.expect(2);
+    exec('grunt teamcity:runAsyncFail --no-color', function (err, result) {
+      
+      var failedAsyncTaskIdx = result.indexOf("blockOpened name='myFailingAsyncTask'");
+      var asyncTaskIdx = result.indexOf("blockOpened name='myAsyncTask'");
+      
+      test.ok(failedAsyncTaskIdx >= 0, 'reports output of failing task');
+      test.ok(asyncTaskIdx === -1, 'does not report output of task after failed one');
+      
+      test.done();
+		});
+  },
+  runAsyncFailForced_RunsAllTasksBeforeExit: function(test){
+    test.expect(2);
+    exec('grunt teamcity:runAsyncFail --force --no-color', function (err, result) {
+      
+      var failedAsyncTaskIdx = result.indexOf("blockOpened name='myFailingAsyncTask'");
+      var asyncTaskIdx = result.indexOf("blockOpened name='myAsyncTask'");
+      
+      test.ok(failedAsyncTaskIdx >= 0, 'reports output of failing task');
+      test.ok(asyncTaskIdx >= 0, 'reports output of task after failed one');
+      
+      test.done();
+		});
   }
 };
