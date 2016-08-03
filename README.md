@@ -47,3 +47,7 @@ Type: `Boolean`
 Default: `true`
 
 Set to false to have task-order respected
+
+## License
+
+MIT @ https://tolu.mit-license.org/
